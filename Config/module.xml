@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="http://thelia.net/schema/dic/module"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_2.xsd">
+    <fullnamespace>SystemReport\SystemReport</fullnamespace>
+    <descriptive locale="en_US">
+        <title>Your store system report</title>
+    </descriptive>
+    <descriptive locale="fr_FR">
+        <title>Rapport système de votre boutique</title>
+    </descriptive>
+    <logo>logo.png</logo>
+    <languages>
+        <language>en_US</language>
+        <language>fr_FR</language>
+    </languages>
+    <version>0.6.0</version>
+    <author>
+        <name>Nicolas Léon</name>
+        <email>nicolas@omnitic.com</email>
+    </author>
+    <type>classic</type>
+    <thelia>2.3.5</thelia>
+    <stability>beta</stability>
+</module>
