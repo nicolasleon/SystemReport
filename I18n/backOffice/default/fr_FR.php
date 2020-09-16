@@ -7,7 +7,7 @@ return [
     "Database tables" => "Table de la base de données",
     "<strong>%number</strong> installed modules" => "<strong>%number</strong> modules installés",
     "<strong>%number</strong> active modules" => "<strong>%number</strong> modules activés",
-    "Database size" => "Tailler de la base",
+    "Database size" => "Taille de la base",
     "Number of tables" => "Nombre de tables",
     "Name" => "Nom",
     "Rows" => "Enregistrements",
