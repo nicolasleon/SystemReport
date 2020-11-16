@@ -1,122 +1,148 @@
 {extends file="admin-layout.tpl"}
 
 {block name="page-title"}
-	{intl d='systemreport.bo.default' l='System report'}
+{intl d='systemreport.bo.default' l='System report'}
 {/block}
 
 {block name="main-content"}
 
-    <div class="system-report">
+<div class="system-report">
 
-        <div id="wrapper" class="container">
+    <div id="wrapper" class="container">
 
-            <ul class="breadcrumb">
-                <li><a href="/admin/home">{intl d="bo.default" l="Home"}</a></li>
-                <li><a href="/admin/modules">{intl d="bo.default" l="Modules"}</a></li>
-                <li>{intl d="systemreport.bo.default" l="System report"}</li>
-            </ul>
+        <ul class="breadcrumb">
+            <li><a href="/admin/home">{intl d="bo.default" l="Home"}</a></li>
+            <li><a href="/admin/modules">{intl d="bo.default" l="Modules"}</a></li>
+            <li>{intl d="systemreport.bo.default" l="System report"}</li>
+        </ul>
 
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="general-block-decorator">
-                        <h2>{intl d="systemreport.bo.default" l="Application informations"}</h2>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="general-block-decorator">
+                    <h2>{intl d="systemreport.bo.default" l="Application informations"}</h2>
 
-                        <table class="report-table">
-                            <tr>
-                                <td>{intl d="systemreport.bo.default" l="PHP version"}</td>
-                                <td>{$app_infos['php_version']}</td>
-                            </tr>
-                            <tr>
-                                <td>{intl d="systemreport.bo.default" l="Thelia version"}</td>
-                                <td>{$app_infos['thelia_version']}</td>
-                            </tr>
-                            <tr>
-                                <td>{intl d="systemreport.bo.default" l="Symfony version"}</td>
-                                <td>{$app_infos['symfony_version']}</td>
-                            </tr>
-                            <tr>
-                                <td>{intl d="systemreport.bo.default" l="MySQL version"}</td>
-                                <td>{$app_infos['database_infos']['version']}</td>
-                            </tr>
-                            <tr>
-                                <td>{intl d="systemreport.bo.default" l="Database name"}</td>
-                                <td>{$app_infos['database_infos']['database_name']}</td>
-                            </tr>
-                            <tr>
-                                <td>{intl d="systemreport.bo.default" l="Number of tables"}</td>
-                                <td>{$app_infos['nb_tables']}</td>
-                            </tr>
-                            <tr>
-                                <td>{intl d="systemreport.bo.default" l="Database size"}</td>
-                                <td>{intl d="systemreport.bo.default" l="%size Mb" size=($app_infos['db_size_kb'] / 1024)|string_format:"%.0f"}</td>
-                            </tr>
-                            <tr>
-                                <td>{intl d="systemreport.bo.default" l="Smarty version"}</td>
-                                <td>{$smarty.version}</td>
-                            </tr>
-                        </table>
+                    <table class="report-table">
+                        <tr>
+                            <td>{intl d="systemreport.bo.default" l="PHP version"}</td>
+                            <td>{$app_infos['php_version']}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>{intl d="systemreport.bo.default" l="Thelia version"}</td>
+                            <td>{$app_infos['thelia_version']}</td>
+                            <td><span class="newversion" id="latest-thelia-version"></span></td>
+                        </tr>
+                        <tr>
+                            <td>{intl d="systemreport.bo.default" l="Symfony version"}</td>
+                            <td>{$app_infos['symfony_version']}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>{intl d="systemreport.bo.default" l="MySQL version"}</td>
+                            <td>{$app_infos['database_infos']['version']}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>{intl d="systemreport.bo.default" l="Database name"}</td>
+                            <td>{$app_infos['database_infos']['database_name']}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>{intl d="systemreport.bo.default" l="Number of tables"}</td>
+                            <td>{$app_infos['nb_tables']}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>{intl d="systemreport.bo.default" l="Database size"}</td>
+                            <td>{intl d="systemreport.bo.default" l="%size Mb" size=($app_infos['db_size_kb'] / 1024)|string_format:"%.0f"}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>{intl d="systemreport.bo.default" l="Smarty version"}</td>
+                            <td>{$smarty.version}</td>
+                            <td></td>
+                        </tr>
+                    </table>
 
-                        <h2>{intl d="systemreport.bo.default" l="Thelia requirements"}</h2>
-                        <div>
+                    <h2>{intl d="systemreport.bo.default" l="Thelia requirements"}</h2>
+                    <div>
+                        <ul>
+                            {foreach from=$required_extensions key=extension item=item}
+                            {if $extension|in_array:$loaded_extensions}
+                            <li><strong>OK</strong> - {$item}</li>
+                            {else}
+                            <li class="notok"><strong>KO</strong> - {$item}{$key}</li>
+                            {/if}
+                            {/foreach}
+                        </ul>
+                    </div>
+
+                    <h2>{intl d="systemreport.bo.default" l="Thelia modules"}</h2>
+                    <div class="flex-3-cols-container">
+                        {foreach from=$modules item=item key=key}
+                        <div class="col">
+                            <p>{$item['name']}</p>
                             <ul>
-                                {foreach from=$required_extensions key=extension item=item}
-                                    {if $extension|in_array:$loaded_extensions}
-                                        <li><strong>OK</strong> - {$item}</li>
-                                    {else}
-                                        <li><strong>KO</strong> - {$item}{$key}</li>
-                                    {/if}
-                                {/foreach}
+                                <li>{intl d="systemreport.bo.default" l="<strong>%number</strong> installed modules" number=$item['total']}</li>
+                                <li>{intl d="systemreport.bo.default" l="<strong>%number</strong> active modules" number=$item['active']}</li>
                             </ul>
                         </div>
-
-                        <h2>{intl d="systemreport.bo.default" l="Thelia modules"}</h2>
-                        <div class="flex-3-cols-container">
-                            {foreach from=$modules item=item key=key}
-                                <div class="col">
-                                    <p>{$item['name']}</p>
-                                    <ul>
-                                        <li>{intl d="systemreport.bo.default" l="<strong>%number</strong> installed modules" number=$item['total']}</li>
-                                        <li>{intl d="systemreport.bo.default" l="<strong>%number</strong> active modules" number=$item['active']}</li>
-                                    </ul>
-                                </div>
-                            {/foreach}
-                        </div>
-
-                        <h2>{intl d="systemreport.bo.default" l="Database tables"}</h2>
-                        <table width="100%" class="stripped">
-                            <thead>
-                                <th width="300">{intl d="systemreport.bo.default" l="Name"}</th>
-                                <th widthg="300">{intl d="systemreport.bo.default" l="Rows"}</th>
-                                <th widthg="300">{intl d="systemreport.bo.default" l="Size"}</th>
-                            </thead>
-
-                            {foreach from=$app_infos['database_tables'] item=item}
-                                <tr class="{cycle values="odd,even"}">
-                                    <td height="32">{$item['table_name']}</td>
-                                    <td>{$item['nb_rows']}</td>
-                                    <td>{intl d="systemreport.bo.default" l="%size Kb" size={$item['size_kb']|string_format:"%.0f"}}</td>
-                                </tr>
-{*                                 <div class="flex-3-cols-container">
-                                    <div class="col">{$item['table_name']}</div>
-                                    <div class="col">{$item['nb_rows']}</div>
-                                    <div class="col">{$item['size_kb']|string_format:"%.0f"} {intl d="systemreport.bo.default" l="Kb"}</div>
-                                </div> *}
-                            {/foreach}
-                        </table>
+                        {/foreach}
                     </div>
+
+                    <h2>{intl d="systemreport.bo.default" l="Database tables"}</h2>
+                    <table width="100%" class="stripped">
+                        <thead>
+                        <th width="300">{intl d="systemreport.bo.default" l="Name"}</th>
+                        <th widthg="300">{intl d="systemreport.bo.default" l="Rows"}</th>
+                        <th widthg="300">{intl d="systemreport.bo.default" l="Size"}</th>
+                        </thead>
+
+                        {foreach from=$app_infos['database_tables'] item=item}
+                        <tr class="{cycle values="odd,even"}">
+                        <td height="32">{$item['table_name']}</td>
+                        <td>{$item['nb_rows']}</td>
+                        <td>{intl d="systemreport.bo.default" l="%size Kb" size={$item['size_kb']|string_format:"%.0f"}}</td>
+                        </tr>
+                        {*                                 <div class="flex-3-cols-container">
+                        <div class="col">{$item['table_name']}</div>
+                        <div class="col">{$item['nb_rows']}</div>
+                        <div class="col">{$item['size_kb']|string_format:"%.0f"} {intl d="systemreport.bo.default" l="Kb"}</div>
+                    </div> *}
+                        {/foreach}
+                    </table>
                 </div>
             </div>
-
         </div>
+
     </div>
+</div>
 
 
 {/block}
 
 {block name="javascript-initialization"}
-
+<script>
+    jQuery(function($){
+        // Get the latest Thelia version
+        $.ajax({
+            url: "https://thelia.net/version.php",
+            beforeSend: function (jqXHR) {
+                jqXHR.setRequestHeader("Thelia-Version", "{$THELIA_VERSION}");
+            },
+            crossDomain: true
+        }).done(function(data) {
+            <!-- {$app_infos['thelia_version']} -->
+            if(data.replace(/\n|\r/g,'') != "{$app_infos['thelia_version']}"){
+                $('#latest-thelia-version').html('{intl d="systemreport.bo.default" l="Latest version available"} : <a href="http://thelia.net/#download">' + data + '</a>');
+            }
+        }).fail(function() {
+            $('#latest-thelia-version').text("Unavailable");
+        });
+    });
+</script>
 {/block}
 
 {block name="javascript-last-call"}
-    {* {hook name="categories.js" location="categories-js" } *}
+{* {hook name="categories.js" location="categories-js" } *}
 {/block}

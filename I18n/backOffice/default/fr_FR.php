@@ -14,6 +14,7 @@ return [
     "Size" => "Taille",
     "%size Mb" => "%size Mo",
     "%size Kb" => "%size Ko",
+    "Latest version available" => "Dernière version disponible",
     // "Mb" => "Mo",
     // "Kb" => "Ko",
 ];

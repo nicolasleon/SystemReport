@@ -28,6 +28,7 @@
 }
 .system-report .report-table td:nth-child(2) {
 	font-weight: 800;
+	width: 30%;
 }
 .system-report .report-table table {
 	width: 80%;
@@ -69,4 +70,8 @@
 
 .spacer-top-m {
 	margin-top: 32px;
+}
+
+.notok {
+	color: red;
 }
